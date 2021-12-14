@@ -8,12 +8,12 @@
 import Foundation
 import Moya
 
-enum KamaitachiService {
+enum TachiService {
     case users(search: String? = nil)
     case user(id: Int? = nil, name: String? = nil)
 }
 
-extension KamaitachiService: TargetType {
+extension TachiService: TargetType {
     var baseURL: URL {
         URL(string: "https://kamaitachi.xyz/api/v1")!
     }
