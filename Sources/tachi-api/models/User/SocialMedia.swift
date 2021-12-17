@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - SocialMedia
+
 public struct SocialMedia: Codable {
     public let discord: String?
     public let twitter, youtube, twitch: String?

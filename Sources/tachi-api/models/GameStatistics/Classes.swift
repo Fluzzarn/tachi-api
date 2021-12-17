@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Classes
+
 public struct Classes: Codable {
     public let dan, vfClass: Int?
 

@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Body
+
 public struct GameStatistic: Codable {
     public let game, playtype: String
     public let userID: Int

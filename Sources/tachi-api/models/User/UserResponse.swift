@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Empty
+
 public struct UserResponse: Codable {
     public let success: Bool
     public let purpleDescription: String
@@ -20,6 +21,6 @@ public struct UserResponse: Codable {
     public init(success: Bool, purpleDescription: String, users: User) {
         self.success = success
         self.purpleDescription = purpleDescription
-        self.user = users
+        user = users
     }
 }

@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - User
+
 public struct User: Codable {
     public let username, usernameLowercase, about: String
     public let clan: String?

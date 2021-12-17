@@ -3,8 +3,7 @@ import Foundation
 // MARK: - Encode/decode helpers
 
 public class JSONNull: Codable, Hashable {
-
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
+    public static func == (_: JSONNull, _: JSONNull) -> Bool {
         return true
     }
 

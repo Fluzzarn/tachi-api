@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Ratings
+
 public struct Ratings: Codable {
     public let bpi, ktRating, ktLampRating, vf6: Double?
 

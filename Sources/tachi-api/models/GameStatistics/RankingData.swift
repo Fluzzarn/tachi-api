@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - RankingData
+
 public struct RankingData: Codable {
     public let ktRating, ktLampRating, bpi, vf6: GameStatisticRanking?
 

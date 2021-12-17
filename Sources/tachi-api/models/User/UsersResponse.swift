@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Empty
+
 public struct UsersResponse: Codable {
     public let success: Bool
     public let purpleDescription: String

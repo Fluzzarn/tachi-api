@@ -6,6 +6,7 @@
 import Foundation
 
 // MARK: - Bpi
+
 public struct GameStatisticRanking: Codable {
     public let ranking, outOf: Int
 
