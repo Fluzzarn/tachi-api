@@ -9,72 +9,121 @@ import Foundation
 import Moya
 
 enum TachiService {
-    case users(search: String? = nil)
-    case user(id: Int? = nil, name: String? = nil)
+    
+    typealias serverInfo = (server: Server, id: Int?, name: String?)
+    
+    func constructUserURL(base: String, id: Int? = nil, username: String? = nil) -> String {
+        if let id = id {
+            return base.replacingOccurrences(of: "|", with: "\(id)")
+        } else if let name = username {
+            return base.replacingOccurrences(of: "|", with: name)
+        } else {
+            return base.replacingOccurrences(of: "|", with: "me")
+        }
+    }
+    
+    func serverURL(server: Server) -> URL {
+        switch server {
+        case .bokutachi:
+            return URL(string: "https://bokutachi.xyz")!
+        case .kamaitachi:
+            return URL(string: "https://kamaitachi.xyz")!
+        }
+    }
+    
+    case users(server: Server, search: String? = nil)
+    case user(server: Server, id: Int? = nil, name: String? = nil)
+    case userStatisics(server: Server, id: Int? = nil, name: String? = nil)
+    case profilePicture(server: Server, id: Int? = nil, name: String? = nil)
+    case banner(server: Server, id: Int? = nil, name: String? = nil)
 }
 
 extension TachiService: TargetType {
     var baseURL: URL {
-        URL(string: "https://kamaitachi.xyz/api/v1")!
+        switch self {
+        case .users(let server, _),
+             .user(let server, _, _),
+             .userStatisics(server: let server, _,_),
+             .profilePicture(server: let server, _, _),
+             .banner(server: let server,_, _):
+                return serverURL(server: server)
+        }
     }
     
     var path: String {
         switch self {
         case .users:
             return "/users"
-        case .user(id: let id, name: let name):
-            if let id = id {
-                return "/users/\(id)"
-            } else if let name = name {
-                return "/users/\(name)"
-            } else {
-                return "/users/me"
-            }
+        case .user(_, id: let id, name: let name):
+            return self.constructUserURL(base: "/users/|", id: id, username: name)
+        case .userStatisics(_ , id: let id, name: let name):
+            return self.constructUserURL(base: "/users/|/game-stats", id: id, username: name)
+        case .profilePicture(_ , id: let id, name: let name):
+            return self.constructUserURL(base: "/users/|/pfp", id: id, username: name)
+        case .banner(_ , id: let id, name: let name):
+            return self.constructUserURL(base: "/users/|/banner", id: id, username: name)
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .users:
+        case .users(_, _),
+             .user(_, _, _),
+             .userStatisics(_, _,_),
+             .profilePicture(_, _, _),
+             .banner(_, _, _):
             return .get
-        case .user(_,_):
-            return .get
+
+            
         }
     }
     
     var task: Task {
         switch self {
-        case .users(let search):
+        case .users(_, let search):
             if let search = search {
                 return .requestParameters(parameters: ["search": search], encoding: JSONEncoding.default)
             } else  {
                 return .requestPlain
             }
-        case .user(_,_):
+        case .user, .userStatisics, .profilePicture, .banner:
             return .requestPlain
-        }
+
+    }
     }
     
     var sampleData: Data {
         switch self {
-        case .users(_):
+        case .users(_,_):
             guard let url = Bundle.module.url(forResource: "users_test", withExtension: "json"), let data = try? Data(contentsOf: url) else {
                 return Data()
             }
             return data 
-        case .user(id: let id, name: let name):
-            var fileName = "user_me"
-            if id != nil {
-                fileName = "user_id"
-            } else if name != nil {
-                fileName = "user_name"
-            }
+        case .user(_, _, _):
+            let fileName = "user_name"
             guard let url = Bundle.module.url(forResource: fileName, withExtension: "json"), let data = try? Data(contentsOf: url) else {
                 return Data()
             }
             return data
+        case .userStatisics(_ , _,_):
+            let fileName = "user_stats_name"
+            guard let url = Bundle.module.url(forResource: fileName, withExtension: "json"), let data = try? Data(contentsOf: url) else {
+                return Data()
+            }
+            return data
+        case .profilePicture(_,_,_):
+            let fileName = "test_pfp"
+            guard let url = Bundle.module.url(forResource: fileName, withExtension: "png"), let data = try? Data(contentsOf: url) else {
+                return Data()
+            }
+            return data
+        case .banner(_,_,_):
+            let fileName = "test_banner"
+            guard let url = Bundle.module.url(forResource: fileName, withExtension: "png"), let data = try? Data(contentsOf: url) else {
+                return Data()
+            }
+            return data
         }
-        
     }
     
     var headers: [String : String]? {

@@ -13,11 +13,11 @@ import XCTest
 @testable import tachi_api
 
 final class UsersTests: XCTestCase {
-    let provider = MoyaProvider<KamaitachiService>(stubClosure: MoyaProvider.immediatelyStub)
+    let provider = MoyaProvider<TachiService>(stubClosure: MoyaProvider.immediatelyStub)
     var cancellables = Set<AnyCancellable>()
     func testGetUsers() throws {
         let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.users(search: nil)).sink(receiveCompletion: { response in
+        provider.requestPublisher(.users(server: .kamaitachi,search: nil)).sink(receiveCompletion: { response in
             
             guard case let .failure(error) = response else { return }
 
@@ -37,7 +37,7 @@ final class UsersTests: XCTestCase {
     
     func testGetMeUser() throws {
         let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.user()).sink(receiveCompletion: { response in
+        provider.requestPublisher(.user(server: .kamaitachi)).sink(receiveCompletion: { response in
             
             guard case let .failure(error) = response else { return }
 
@@ -54,7 +54,7 @@ final class UsersTests: XCTestCase {
     
     func testGetUserByName() throws {
         let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.user(name:"fluzzarn")).sink(receiveCompletion: { response in
+        provider.requestPublisher(.user(server: .kamaitachi,name:"fluzzarn")).sink(receiveCompletion: { response in
             
             guard case let .failure(error) = response else { return }
 
@@ -63,6 +63,43 @@ final class UsersTests: XCTestCase {
                 let decoder = JSONDecoder()
                 let userResponse = try! decoder.decode(UserResponse.self, from: response.data)
                 XCTAssertEqual(userResponse.user.usernameLowercase, "fluzzarn")
+                        expectation.fulfill()
+            
+        }).store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 3)
+    }
+    
+    
+    func testGetPFP() throws {
+        let expectation = XCTestExpectation(description: "printing users")
+        provider.requestPublisher(.profilePicture(server: .kamaitachi,name:"fluzzarn")).sink(receiveCompletion: { response in
+            
+            guard case let .failure(error) = response else { return }
+
+            print(error)
+        }, receiveValue: {response in
+            let userResponse = Image(data: response.data)
+            XCTAssertNotNil(userResponse)
+            XCTAssertEqual(userResponse?.size.width, 600)
+                        expectation.fulfill()
+            
+        }).store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 3)
+    }
+    
+    func testGetBanner() throws {
+        let expectation = XCTestExpectation(description: "printing users")
+        provider.requestPublisher(.banner(server: .kamaitachi,name:"fluzzarn")).sink(receiveCompletion: { response in
+            
+            guard case let .failure(error) = response else { return }
+
+            print(error)
+        }, receiveValue: {response in
+            let userResponse = Image(data: response.data)
+            XCTAssertNotNil(userResponse)
+            XCTAssertEqual(userResponse?.size.width, 1539)
                         expectation.fulfill()
             
         }).store(in: &cancellables)
