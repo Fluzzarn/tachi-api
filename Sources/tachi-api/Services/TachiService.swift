@@ -35,11 +35,17 @@ enum TachiService {
     case userStatisics(server: Server, id: Int? = nil, name: String? = nil)
     case profilePicture(server: Server, id: Int? = nil, name: String? = nil)
     case banner(server: Server, id: Int? = nil, name: String? = nil)
+    case oauthToken(server: Server, clientId:String, clientSecret:String, grantType:String, redirectURI:String, code: String)
 }
 
 extension TachiService: TargetType, AccessTokenAuthorizable {
     var authorizationType: AuthorizationType? {
-        return .bearer
+        switch self {
+        case .oauthToken:
+            return .none
+        default:
+            return .bearer
+        }
     }
     
     var baseURL: URL {
@@ -48,9 +54,10 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
              let .user(server, _, _),
              let .userStatisics(server: server, _, _),
              let .profilePicture(server: server, _, _),
-             let .banner(server: server, _, _):
+             let .banner(server: server, _, _),
+            let .oauthToken(server: server, _,_,_,_,_):
             return serverURL(server: server)
-        }
+    }
     }
 
     var path: String {
@@ -65,6 +72,8 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
             return constructUserURL(base: "/users/|/pfp", id: id, username: name)
         case let .banner(_, id: id, name: name):
             return constructUserURL(base: "/users/|/banner", id: id, username: name)
+        case .oauthToken(server: let server, _,_,_,_,_):
+            return "/ouath/token"
         }
     }
 
@@ -74,7 +83,8 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
              .user(_, _, _),
              .userStatisics(_, _, _),
              .profilePicture(_, _, _),
-             .banner:
+             .banner,
+             .oauthToken(_,_,_,_,_,_):
             return .get
         }
     }
@@ -87,6 +97,10 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
             } else {
                 return .requestPlain
             }
+        case let .oauthToken(_,clientId,clientSecret,grantType,redirectURI, code):
+            let request = OAuthTokenRequest(clientID: clientId, clientSecret: clientSecret, grantType: grantType, redirectURI: redirectURI, code: code)
+            return .requestJSONEncodable(request)
+        
         case .user, .userStatisics, .profilePicture, .banner:
             return .requestPlain
         }
@@ -123,13 +137,15 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
                 return Data()
             }
             return data
+        case .oauthToken(server: let server, clientId: let clientId, clientSecret: let clientSecret, grantType: let grantType, redirectURI: let redirectURI, code: let code):
+            return Data()
         }
     }
 
     var headers: [String: String]? {
         return ["Content-type": "application/json"]
     }
-}
+    }
 
 // MARK: - Helpers
 
