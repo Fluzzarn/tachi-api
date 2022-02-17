@@ -23,6 +23,17 @@ public struct OAuthTokenResponse: Codable {
     }
 }
 
+public struct WrappedOAuthTokenResponse:Codable {
+    public let success: Bool
+    
+    public let body: OAuthTokenResponse
+    
+    public init(success:Bool, body:OAuthTokenResponse) {
+        self.success = success
+        self.body = body
+    }
+}
+
 // Permissions.swift
 
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
