@@ -3,7 +3,7 @@ import CombineMoya
 import Combine
 import Foundation
 
-class tachi_api {
+public class tachi_api {
     public static let instance = tachi_api()
     
     public var accessToken:String = ""
