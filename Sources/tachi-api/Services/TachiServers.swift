@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal enum Server {
+public enum Server {
     case bokutachi
     case kamaitachi
 
