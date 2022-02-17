@@ -24,9 +24,9 @@ enum TachiService {
     func serverURL(server: Server) -> URL {
         switch server {
         case .bokutachi:
-            return URL(string: "https://bokutachi.xyz")!
+            return URL(string: "https://bokutachi.xyz/api/v1")!
         case .kamaitachi:
-            return URL(string: "https://kamaitachi.xyz")!
+            return URL(string: "https://kamaitachi.xyz/api/v1")!
         }
     }
 
