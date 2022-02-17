@@ -37,7 +37,11 @@ enum TachiService {
     case banner(server: Server, id: Int? = nil, name: String? = nil)
 }
 
-extension TachiService: TargetType {
+extension TachiService: TargetType, AccessTokenAuthorizable {
+    var authorizationType: AuthorizationType? {
+        return .bearer
+    }
+    
     var baseURL: URL {
         switch self {
         case let .users(server, _),

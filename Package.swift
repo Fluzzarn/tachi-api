@@ -30,7 +30,7 @@ let package = Package(
                 // Copy Tests/ExampleTests/Resources directories as-is.
                 // Use to retain directory structure.
                 // Will be at top level in bundle.
-                .process("testJSON"),
+                .process("Resources"),
             ]
         ),
         .testTarget(
