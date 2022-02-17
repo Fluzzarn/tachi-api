@@ -12,14 +12,14 @@ public struct OAuthTokenResponse: Codable {
     public let userID: Int
     public let token, identifier: String
     public let permissions: Permissions
-    public let fromOAuth2Client: String
+    public let fromAPIClient: String
 
-    public init(userID: Int, token: String, identifier: String, permissions: Permissions, fromOAuth2Client: String) {
+    public init(userID: Int, token: String, identifier: String, permissions: Permissions, fromAPIClient: String) {
         self.userID = userID
         self.token = token
         self.identifier = identifier
         self.permissions = permissions
-        self.fromOAuth2Client = fromOAuth2Client
+        self.fromAPIClient = fromAPIClient
     }
 }
 
