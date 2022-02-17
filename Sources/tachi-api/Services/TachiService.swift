@@ -46,6 +46,7 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
         default:
             return .bearer
         }
+
     }
     
     var baseURL: URL {
@@ -73,7 +74,7 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
         case let .banner(_, id: id, name: name):
             return constructUserURL(base: "/users/|/banner", id: id, username: name)
         case .oauthToken(server: let server, _,_,_,_,_):
-            return "/ouath/token"
+            return "/oauth/token"
         }
     }
 
@@ -83,9 +84,10 @@ extension TachiService: TargetType, AccessTokenAuthorizable {
              .user(_, _, _),
              .userStatisics(_, _, _),
              .profilePicture(_, _, _),
-             .banner,
-             .oauthToken(_,_,_,_,_,_):
+             .banner:
             return .get
+        case .oauthToken(_,_,_,_,_,_):
+            return .post
         }
     }
 
