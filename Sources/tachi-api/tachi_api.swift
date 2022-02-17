@@ -4,7 +4,7 @@ import Combine
 import Foundation
 
 class tachi_api {
-    static let instance = tachi_api()
+    public static let instance = tachi_api()
     
     public var accessToken:String = ""
     let authplugin = AccessTokenPlugin(tokenClosure: {_ in tachi_api.instance.accessToken})
