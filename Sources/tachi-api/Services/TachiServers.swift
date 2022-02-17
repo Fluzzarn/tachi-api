@@ -19,4 +19,5 @@ public enum Server {
             return URL(string: "https://kamaitachi.xyz")!
         }
     }
+    public static var accessToken:String = ""
 }
