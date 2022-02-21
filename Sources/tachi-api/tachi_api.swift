@@ -2,6 +2,7 @@ import Moya
 import CombineMoya
 import Combine
 import Foundation
+import SwiftUI
 
 public class tachi_api {
     public static let instance = tachi_api()
@@ -22,5 +23,13 @@ public class tachi_api {
     
     public func getMe() -> AnyPublisher<User,Error> {
         return provider.requestPublisher(.user(server: server, name: "me")).map({$0.data}).decode(type: UserResponse.self, decoder: JSONDecoder()).map({$0.user}).eraseToAnyPublisher()
+    }
+    
+    public func getMyProfilePicture() -> AnyPublisher<Moya.ImageType, MoyaError> {
+        return provider.requestPublisher(.profilePicture(server: server, name: "me")).map{$0.data}.map{return Moya.Image(data: $0) ?? Moya.Image()}.eraseToAnyPublisher()
+    }
+    
+    public func getMyBanner() -> AnyPublisher<Moya.ImageType, MoyaError> {
+        return provider.requestPublisher(.banner(server: server, name: "me")).map{$0.data}.map{return Moya.Image(data: $0) ?? Moya.Image()}.eraseToAnyPublisher()
     }
 }
