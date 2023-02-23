@@ -7,7 +7,7 @@ import Foundation
 
 // MARK: - Ratings
 
-public struct Ratings: Codable {
+public struct Ratings: Codable, Hashable {
     public let bpi, ktRating, ktLampRating, vf6: Double?
 
     enum CodingKeys: String, CodingKey {

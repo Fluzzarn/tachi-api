@@ -1,25 +1,42 @@
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let rankingData = try? newJSONDecoder().decode(RankingData.self, from: jsonData)
+// zkldi I hate you for having dynamic json keys
 
 import Foundation
 
 // MARK: - RankingData
 
-public struct RankingData: Codable {
-    public let ktRating, ktLampRating, bpi, vf6: GameStatisticRanking?
+public struct RankingData: Codable, Hashable{
+    public var ranking: GameStatisticRanking?
 
-    enum CodingKeys: String, CodingKey {
-        case ktRating, ktLampRating
-        case bpi = "BPI"
-        case vf6 = "VF6"
+    enum CodingKeys:CodingKey {
+        
     }
 
-    public init(ktRating: GameStatisticRanking?, ktLampRating: GameStatisticRanking?, bpi: GameStatisticRanking?, vf6: GameStatisticRanking?) {
-        self.ktRating = ktRating
-        self.ktLampRating = ktLampRating
-        self.bpi = bpi
-        self.vf6 = vf6
+    public init(ranking: GameStatisticRanking?) {
+        self.ranking = ranking
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: DynamicCodingKeys.self)
+        for key in values.allKeys {
+            self.ranking = try values.decode(GameStatisticRanking?.self, forKey: DynamicCodingKeys(stringValue: key.stringValue)!)
+        }
     }
 }
+
+// Define DynamicCodingKeys type needed for creating
+    // decoding container from JSONDecoder
+    private struct DynamicCodingKeys: CodingKey {
+
+        // Use for string-keyed dictionary
+        var stringValue: String
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+        }
+
+        // Use for integer-keyed dictionary
+        var intValue: Int?
+        init?(intValue: Int) {
+            // We are not using this, thus just return nil
+            return nil
+        }
+    }

@@ -7,7 +7,7 @@ import Foundation
 
 // MARK: - Classes
 
-public struct Classes: Codable {
+public struct Classes: Codable, Hashable {
     public let dan, vfClass: Int?
 
     public init(dan: Int?, vfClass: Int?) {

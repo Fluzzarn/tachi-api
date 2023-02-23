@@ -7,7 +7,11 @@ import Foundation
 
 // MARK: - Body
 
-public struct GameStatistic: Codable {
+public struct GameStatistic: Codable, Hashable {
+    public static func == (lhs: GameStatistic, rhs: GameStatistic) -> Bool {
+        return lhs.game == rhs.game && lhs.playtype == rhs.playtype && lhs.userID == rhs.userID
+    }
+    
     public let game, playtype: String
     public let userID: Int
     public let ratings: Ratings

@@ -32,4 +32,16 @@ public class tachi_api {
     public func getMyBanner() -> AnyPublisher<Moya.ImageType, MoyaError> {
         return provider.requestPublisher(.banner(server: server, name: "me")).map{$0.data}.map{return Moya.Image(data: $0) ?? Moya.Image()}.eraseToAnyPublisher()
     }
+    
+    public func getGameStatistics(for userID:Int) -> AnyPublisher<[GameStatistic], Error> {
+        return provider.requestPublisher(.userStatisics(server: server, id: userID)).map({$0.data}).decode(type: UserStatisticsResponse.self, decoder: JSONDecoder()).map({$0.body}).eraseToAnyPublisher()
+    }
+    
+    public func getGameStatistics(for username:String) -> AnyPublisher<[GameStatistic], Error> {
+        return provider.requestPublisher(.userStatisics(server:server, name:username)).map({$0.data}).decode(type: UserStatisticsResponse.self, decoder: JSONDecoder()).map({$0.body}).eraseToAnyPublisher()
+    }
+    
+    public func getGameStatisticsForMe() -> AnyPublisher<[GameStatistic], Error> {
+        return getGameStatistics(for: "me")
+    }
 }

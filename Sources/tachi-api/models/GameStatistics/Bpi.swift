@@ -7,7 +7,7 @@ import Foundation
 
 // MARK: - Bpi
 
-public struct GameStatisticRanking: Codable {
+public struct GameStatisticRanking: Codable, Hashable {
     public let ranking, outOf: Int
 
     public init(ranking: Int, outOf: Int) {
