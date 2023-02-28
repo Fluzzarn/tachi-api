@@ -8,7 +8,8 @@
 import Foundation
 
 
-public struct Song: Codable {
+public struct Song: Codable, Hashable {
+    
    public let id: Int
    public let title: String
    public let artist: String
@@ -19,7 +20,7 @@ public struct Song: Codable {
 }
 
 
-public struct SongData:Codable {
+public struct SongData:Codable, Hashable {
    public let genre: String?
    public let displayVersion: String?
    public let titleJP: String?

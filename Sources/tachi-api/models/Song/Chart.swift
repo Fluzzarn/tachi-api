@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct Chart: Codable {
+public struct Chart: Codable, Hashable {
     public let chartID: String?
     public let songID: Int?
     public let level: String?
@@ -20,7 +20,7 @@ public struct Chart: Codable {
     public let versions: [String]?
 }
 
-public struct ChartData: Codable {
+public struct ChartData: Codable, Hashable {
     public let notecount: Int?
     public var inGameID: [Int]?
     public let hashSHA256: String?
@@ -140,7 +140,7 @@ public struct ChartData: Codable {
     }
 }
 
-public struct Breakdown: Codable {
+public struct Breakdown: Codable, Hashable {
     public let detailed: String?
     public let partiallySimplified: String?
     public let simplified: String?
@@ -148,12 +148,12 @@ public struct Breakdown: Codable {
     public let density: Float?
 }
 
-public struct TableData: Codable {
+public struct TableData: Codable, Hashable {
     public let table: String?
     public let level: String?
 }
 
-public struct TierListData: Codable {
+public struct TierListData: Codable, Hashable {
     public let value: Float
     public let text: String
     public let individualDifference: Bool
