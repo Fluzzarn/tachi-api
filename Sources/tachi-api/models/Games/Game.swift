@@ -9,8 +9,8 @@ import Foundation
 
 
 public struct Game: Codable {
-    var name: String
-    var playtypes: [String]
+    public var name: String
+    public var playtypes: [String]
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

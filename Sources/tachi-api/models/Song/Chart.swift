@@ -9,51 +9,51 @@ import Foundation
 
 
 public struct Chart: Codable {
-    let chartID: String?
-    let songID: Int?
-    let level: String?
-    let levelNum: Float?
-    let isPrimary: Bool?
-    let difficulty: String?
-    let playtype: String?
-    let data: ChartData?
-    let versions: [String]?
+    public let chartID: String?
+    public let songID: Int?
+    public let level: String?
+    public let levelNum: Float?
+    public let isPrimary: Bool?
+    public let difficulty: String?
+    public let playtype: String?
+    public let data: ChartData?
+    public let versions: [String]?
 }
 
 public struct ChartData: Codable {
-    let notecount: Int?
-    var inGameID: [Int]?
-    let hashSHA256: String?
-    let iidxtraSet: String?
-    let kaidenAverage: Int?
-    let worldRecord: Int?
-    let bpiCoefficient: Float?
-    let ncTier: TierListData?
-    let hcTier: TierListData?
-    let exhcTier: TierListData?
-    let hashMD5: String?
-    let sglEC: Float?
-    let sglHC: Float?
-    let aiLevel: String?
-    let tableFolders: [TableData]?
-    let isLatest: Bool?
-    let clearTier: TierListData?
-    let hashSHA1: String?
-    let isOfficial: Bool?
-    let effector: String?
-    let rankedLevel: Bool?
-    let chartLevel: Float?
-    let hashGSv3: String?
-    let difficultyTag: String?
-    let length: Float?
-    let charter: String?
-    let streamBPM: Float?
-    let npsPerMeasure: [Float]?
-    let notesPerMeasure: [Float]?
-    let bannerLocationOverride: String?
-    let originalPack: String?
-    let packs: [String]?
-    let breakdown: Breakdown?
+    public let notecount: Int?
+    public var inGameID: [Int]?
+    public let hashSHA256: String?
+    public let iidxtraSet: String?
+    public let kaidenAverage: Int?
+    public let worldRecord: Int?
+    public let bpiCoefficient: Float?
+    public let ncTier: TierListData?
+    public let hcTier: TierListData?
+    public let exhcTier: TierListData?
+    public let hashMD5: String?
+    public let sglEC: Float?
+    public let sglHC: Float?
+    public let aiLevel: String?
+    public let tableFolders: [TableData]?
+    public let isLatest: Bool?
+    public let clearTier: TierListData?
+    public let hashSHA1: String?
+    public let isOfficial: Bool?
+    public let effector: String?
+    public let rankedLevel: Bool?
+    public let chartLevel: Float?
+    public let hashGSv3: String?
+    public let difficultyTag: String?
+    public let length: Float?
+    public let charter: String?
+    public let streamBPM: Float?
+    public let npsPerMeasure: [Float]?
+    public let notesPerMeasure: [Float]?
+    public let bannerLocationOverride: String?
+    public let originalPack: String?
+    public let packs: [String]?
+    public let breakdown: Breakdown?
     
     enum CodingKeys: String, CodingKey {
         case notecount
@@ -141,20 +141,20 @@ public struct ChartData: Codable {
 }
 
 public struct Breakdown: Codable {
-    let detailed: String?
-    let partiallySimplified: String?
-    let simplified: String?
-    let total: String?
-    let density: Float?
+    public let detailed: String?
+    public let partiallySimplified: String?
+    public let simplified: String?
+    public let total: String?
+    public let density: Float?
 }
 
 public struct TableData: Codable {
-    let table: String?
-    let level: String?
+    public let table: String?
+    public let level: String?
 }
 
 public struct TierListData: Codable {
-    let value: Float
-    let text: String
-    let individualDifference: Bool
+    public let value: Float
+    public let text: String
+    public let individualDifference: Bool
 }

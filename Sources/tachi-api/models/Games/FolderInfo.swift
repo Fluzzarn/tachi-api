@@ -9,14 +9,14 @@ import Foundation
 
 
 public struct FolderInfo: Codable {
-    let folderID: String
-    let game: String
-    let inactive: Bool
-    let playtype: String
-    let searchTerms: [String]
-    let title: String
-    let type: String
-    let data: FolderData
+    public let folderID: String
+    public let game: String
+    public let inactive: Bool
+    public let playtype: String
+    public let searchTerms: [String]
+    public let title: String
+    public let type: String
+    public let data: FolderData
     
     enum CodingKeys: CodingKey {
         case folderID
@@ -47,8 +47,8 @@ public struct FolderInfo: Codable {
 
 
 public struct FolderData: Codable {
-    let level: String
-    let versions: String
+    public let level: String
+    public let versions: String
     
     enum CodingKeys: CodingKey {
         case level

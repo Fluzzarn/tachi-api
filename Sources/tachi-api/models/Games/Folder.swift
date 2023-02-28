@@ -8,9 +8,9 @@
 import Foundation
 
 public struct Folder: Codable {
-    let songs: [Song]
-    let charts: [Chart]
-    let folder: FolderInfo
+     public let songs: [Song]
+     public let charts: [Chart]
+     public let folder: FolderInfo
     
     enum CodingKeys: CodingKey {
         case songs

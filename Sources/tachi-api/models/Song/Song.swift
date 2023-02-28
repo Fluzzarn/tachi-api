@@ -9,24 +9,24 @@ import Foundation
 
 
 public struct Song: Codable {
-    let id: Int
-    let title: String
-    let artist: String
-    let searchTerms: [String]
-    let altTitles: [String]
-    let data: SongData
+   public let id: Int
+   public let title: String
+   public let artist: String
+   public let searchTerms: [String]
+   public let altTitles: [String]
+   public let data: SongData
     
 }
 
 
 public struct SongData:Codable {
-    let genre: String?
-    let displayVersion: String?
-    let titleJP: String?
-    let artistJP: String?
-    let subtitle: String?
-    let subartist: String?
-    let tableString: String?
-    let isHot: Bool?
-    let genreEN: String?
+   public let genre: String?
+   public let displayVersion: String?
+   public let titleJP: String?
+   public let artistJP: String?
+   public let subtitle: String?
+   public let subartist: String?
+   public let tableString: String?
+   public let isHot: Bool?
+   public let genreEN: String?
 }
