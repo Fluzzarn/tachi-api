@@ -13,95 +13,75 @@ import Moya
 import XCTest
 
 final class UsersTests: XCTestCase {
-    let provider = MoyaProvider<TachiService>(stubClosure: MoyaProvider.immediatelyStub)
-    var cancellables = Set<AnyCancellable>()
-    func testGetUsers() throws {
-        let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.users(server: .kamaitachi, search: nil)).sink(receiveCompletion: { response in
+    let client = KamaitachiClient()
 
-            guard case let .failure(error) = response else { return }
-
-            print(error)
-        }, receiveValue: { response in
-            let decoder = JSONDecoder()
-            let userResponse = try! decoder.decode(UsersResponse.self, from: response.data)
-            for user in userResponse.users {
-                print(user.username)
-            }
-            expectation.fulfill()
-        }).store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 3)
+    func testGetGPT() async throws {
+       
+        let games = await client.getGames()
+        guard let games = games else {
+            XCTFail()
+            return
+        }
+        let game = games.supportedGames[0]
+        let config = games.configs[game]
+        
+        guard let config = config else {
+            XCTFail()
+            return
+        }
+        let playType = config.playtypes[0]
+        
+        guard let gpt = await client.getGamePTConfig(name: game, playtype: playType) else {
+            XCTFail()
+            return
+        }
+        print(gpt)
     }
-
-    func testGetMeUser() throws {
-        let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.user(server: .kamaitachi)).sink(receiveCompletion: { response in
-
-            guard case let .failure(error) = response else { return }
-
-            print(error)
-        }, receiveValue: { response in
-            let decoder = JSONDecoder()
-            let userResponse = try! decoder.decode(UserResponse.self, from: response.data)
-            XCTAssertEqual(userResponse.user.usernameLowercase, "fluzzarn")
-            expectation.fulfill()
-        }).store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 3)
+    
+    func testGetTables() async throws {
+        let games = await client.getGames()
+        guard let games = games else {
+            XCTFail()
+            return
+        }
+        let game = games.supportedGames[0]
+        let config = games.configs[game]
+        
+        guard let config = config else {
+            XCTFail()
+            return
+        }
+        let playType = config.playtypes[0]
+        let folders = await client.getTables(for: game, playtype: playType)
+        print(folders)
     }
-
-    func testGetUserByName() throws {
-        let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.user(server: .kamaitachi, name: "fluzzarn")).sink(receiveCompletion: { response in
-
-            guard case let .failure(error) = response else { return }
-
-            print(error)
-        }, receiveValue: { response in
-            let decoder = JSONDecoder()
-            let userResponse = try! decoder.decode(UserResponse.self, from: response.data)
-            XCTAssertEqual(userResponse.user.usernameLowercase, "fluzzarn")
-            expectation.fulfill()
-
-        }).store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 3)
-    }
-
-    func testGetPFP() throws {
-        let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.profilePicture(server: .kamaitachi, name: "fluzzarn")).sink(receiveCompletion: { response in
-
-            guard case let .failure(error) = response else { return }
-
-            print(error)
-        }, receiveValue: { response in
-            let userResponse = Image(data: response.data)
-            XCTAssertNotNil(userResponse)
-            XCTAssertEqual(userResponse?.size.width, 600)
-            expectation.fulfill()
-
-        }).store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 3)
-    }
-
-    func testGetBanner() throws {
-        let expectation = XCTestExpectation(description: "printing users")
-        provider.requestPublisher(.banner(server: .kamaitachi, name: "fluzzarn")).sink(receiveCompletion: { response in
-
-            guard case let .failure(error) = response else { return }
-
-            print(error)
-        }, receiveValue: { response in
-            let userResponse = Image(data: response.data)
-            XCTAssertNotNil(userResponse)
-            XCTAssertEqual(userResponse?.size.width, 1539)
-            expectation.fulfill()
-
-        }).store(in: &cancellables)
-
-        wait(for: [expectation], timeout: 3)
+    
+    
+    func testGetFolder() async throws {
+        let games = await client.getGames()
+        guard let games = games else {
+            XCTFail()
+            return
+        }
+        let game = games.supportedGames[0]
+        let config = games.configs[game]
+        
+        guard let config = config else {
+            XCTFail()
+            return
+        }
+        let playType = config.playtypes[0]
+        let folders = await client.getTables(for: game, playtype: playType)
+        let level12 = folders?.last?.folders.last
+        guard let folder = await client.getFolder(for: game, playtype: playType, with: level12!) else {
+            XCTFail()
+            return
+        }
+        for chart in folder.charts {
+            let song = folder.songs.first(where: {$0.id == chart.songID
+            })
+            print("\(song?.title ?? "") (\(chart.difficulty ?? "")): \(chart.data?.ncTier?.value ?? 0.0) ")
+        }
+        
     }
 }
