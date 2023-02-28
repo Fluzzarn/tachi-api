@@ -1,10 +1,10 @@
-class KamaitachiClient: TachiClient {
+public class KamaitachiClient: TachiClient {
     var hostName: String = "kamaitachi.xyz"
     lazy var client: HTTPClient<TachiEndpoints>? = {
         HTTPClient(client: self)
     }()
     
-    init() {
+    public init() {
         
     }
     

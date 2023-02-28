@@ -6,7 +6,7 @@
 import Foundation
 
 // MARK: - GamePTConfig
-struct GamePTConfig: Codable {
+public struct GamePTConfig: Codable {
     let config: Config
     let scoreCount, playerCount, chartCount: Int
 }
