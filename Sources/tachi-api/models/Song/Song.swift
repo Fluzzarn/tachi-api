@@ -8,7 +8,11 @@
 import Foundation
 
 
-public struct Song: Codable, Hashable {
+public struct Song: Codable, Hashable, Comparable {
+    public static func < (lhs: Song, rhs: Song) -> Bool {
+        return lhs.title < rhs.title
+    }
+    
     
    public let id: Int
    public let title: String

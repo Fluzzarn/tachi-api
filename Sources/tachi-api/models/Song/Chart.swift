@@ -8,7 +8,11 @@
 import Foundation
 
 
-public struct Chart: Codable, Hashable {
+public struct Chart: Codable, Hashable, Comparable {
+    public static func < (lhs: Chart, rhs: Chart) -> Bool {
+        return lhs.level ?? "" < rhs.level ?? ""
+    }
+    
     public let chartID: String?
     public let songID: Int?
     public let level: String?
