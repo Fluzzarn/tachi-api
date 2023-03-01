@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct FolderInfo: Codable {
+public struct FolderInfo: Codable, Hashable {
     public let folderID: String
     public let game: String
     public let inactive: Bool
@@ -46,7 +46,7 @@ public struct FolderInfo: Codable {
 }
 
 
-public struct FolderData: Codable {
+public struct FolderData: Codable, Hashable {
     public let level: String
     public let versions: String
     

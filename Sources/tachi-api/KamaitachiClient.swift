@@ -48,4 +48,8 @@ public class KamaitachiClient: TachiClient {
         return response?.body
     }
     
+    public func getFoldersIn(table: String, for game: String, playtype: String) async -> TableInfo? {
+        let response: StandardResponse<TableInfo>? = await client?.perform(for: .table(game: game, playtype: playtype, id: table))
+        return response?.body
+    }
 }

@@ -15,6 +15,7 @@ enum TachiEndpoints {
     case gamePTConfig(game: String, playtype: String)
     case allTables(game: String, playtype: String)
     case folder(game: String, playtype: String, id: String)
+    case table(game: String, playtype: String, id: String)
 }
 
 extension TachiEndpoints: Endpoint {
@@ -43,6 +44,8 @@ extension TachiEndpoints: Endpoint {
             return "/games/\(game)/\(playtype)/tables"
         case let .folder(game, playtype, id):
             return "/games/\(game)/\(playtype)/folders/\(id)"
+        case let .table(game, playtype, id):
+            return "/games/\(game)/\(playtype)/tables/\(id)"
         }
     }
     
@@ -53,7 +56,8 @@ extension TachiEndpoints: Endpoint {
             .game,
             .gamePTConfig,
             .allTables,
-            .folder:
+            .folder,
+            .table:
             return .GET
         }
     }
