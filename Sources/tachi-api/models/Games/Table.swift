@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct Table: Codable {
+public struct Table: Codable, Hashable {
     public var isDefault: Bool
     public var description: String
     public var folders: [String]
