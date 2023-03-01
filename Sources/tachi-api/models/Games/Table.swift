@@ -9,13 +9,13 @@ import Foundation
 
 
 public struct Table: Codable {
-    var isDefault: Bool
-    var description: String
-    var folders: [String]
-    var game: String
-    var inactive: Bool
-    var tableID: String
-    var title: String
+    public var isDefault: Bool
+    public var description: String
+    public var folders: [String]
+    public var game: String
+    public var inactive: Bool
+    public var tableID: String
+    public var title: String
     
     enum CodingKeys:  String, CodingKey {
         case isDefault = "default"
