@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct Game: Codable {
+public struct Game: Codable, Hashable {
     public var name: String
     public var playtypes: [String]
     

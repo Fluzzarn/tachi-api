@@ -10,8 +10,8 @@ import Foundation
 
 
 public struct Games: Codable {
-    var supportedGames: [String]
-    var configs: [String:Game]
+    public var supportedGames: [String]
+    public var configs: [String:Game]
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
