@@ -58,6 +58,7 @@ public struct ChartData: Codable, Hashable {
     public let originalPack: String?
     public let packs: [String]?
     public let breakdown: Breakdown?
+    public let dpTier: TierListData?
     
     enum CodingKeys: String, CodingKey {
         case notecount
@@ -93,6 +94,7 @@ public struct ChartData: Codable, Hashable {
         case originalPack
         case packs
         case breakdown
+        case dpTier
     }
     
     
@@ -140,7 +142,7 @@ public struct ChartData: Codable, Hashable {
         self.originalPack = try container.decodeIfPresent(String.self, forKey: ChartData.CodingKeys.originalPack)
         self.packs = try container.decodeIfPresent([String].self, forKey: ChartData.CodingKeys.packs)
         self.breakdown = try container.decodeIfPresent(Breakdown.self, forKey: ChartData.CodingKeys.breakdown)
-        
+        self.dpTier = try container.decodeIfPresent(TierListData.self, forKey: .dpTier)
     }
 }
 
