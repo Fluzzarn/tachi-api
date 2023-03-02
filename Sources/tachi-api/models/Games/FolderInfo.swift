@@ -47,19 +47,30 @@ public struct FolderInfo: Codable, Hashable {
 
 
 public struct FolderData: Codable, Hashable {
-    public let level: String
+    public let level: String?
     public let versions: String
+    public let levelNum: [String:Int]?
     
     enum CodingKeys: CodingKey {
         case level
+        case levelNum
         case versions
     }
     
     public init(from decoder: Decoder) throws {
         let container: KeyedDecodingContainer<FolderData.CodingKeys> = try decoder.container(keyedBy: FolderData.CodingKeys.self)
+        let nullableLevel = try? container.decodeIfPresent(String.self, forKey: FolderData.CodingKeys.level)
+        if nullableLevel == nil {
+            if let nullableDict = try container.decodeIfPresent([String:[String]].self, forKey: FolderData.CodingKeys.level) {
+                self.level = nullableDict["~in"]?.joined(separator: "-") ?? ""
+            } else {
+                self.level = nil
+            }
+        } else {
+            self.level = try container.decodeIfPresent(String.self, forKey: FolderData.CodingKeys.level)
+        }
         
-        self.level = try container.decode(String.self, forKey: FolderData.CodingKeys.level)
         self.versions = try container.decode(String.self, forKey: FolderData.CodingKeys.versions)
-        
+        self.levelNum = try container.decodeIfPresent([String:Int].self, forKey: FolderData.CodingKeys.levelNum)
     }
 }
