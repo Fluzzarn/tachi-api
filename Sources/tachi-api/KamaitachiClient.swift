@@ -55,35 +55,35 @@ public class KamaitachiClient: TachiClient {
     }
     
     public func getProfilePicture(for user:String) async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture(name:user))
+        let data: Data? = await client?.performData(for: .getProfilePicture(name:user))
         
         return data ?? Data()
     }
     public func getProfilePicture(for user:Int) async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture(id:user))
+        let data: Data? = await client?.performData(for: .getProfilePicture(id:user))
         
         return data ?? Data()
     }
     
     public func getProfilePicture() async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture())
+        let data: Data? = await client?.performData(for: .getProfilePicture())
         
         return data ?? Data()
     }
     
     public func getProfileBanner(for user:String) async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture(name:user))
+        let data: Data? = await client?.performData(for: .getProfilePicture(name:user))
         
         return data ?? Data()
     }
     public func getProfileBanner(for user:Int) async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture(id:user))
+        let data: Data? = await client?.performData(for: .getProfilePicture(id:user))
         
         return data ?? Data()
     }
     
     public func getProfileBanner() async -> Data {
-        let data: Data? = await client?.perform(for: .getProfilePicture())
+        let data: Data? = await client?.performData(for: .getProfilePicture())
         
         return data ?? Data()
     }
