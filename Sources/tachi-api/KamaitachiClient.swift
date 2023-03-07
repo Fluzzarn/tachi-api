@@ -1,3 +1,4 @@
+import Foundation
 public class KamaitachiClient: TachiClient {
     var hostName: String = "kamaitachi.xyz"
     lazy var client: HTTPClient<TachiEndpoints>? = {
@@ -51,5 +52,39 @@ public class KamaitachiClient: TachiClient {
     public func getFoldersIn(table: String, for game: String, playtype: String) async -> TableInfo? {
         let response: StandardResponse<TableInfo>? = await client?.perform(for: .table(game: game, playtype: playtype, id: table))
         return response?.body
+    }
+    
+    public func getProfilePicture(for user:String) async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture(name:user))
+        
+        return data ?? Data()
+    }
+    public func getProfilePicture(for user:Int) async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture(id:user))
+        
+        return data ?? Data()
+    }
+    
+    public func getProfilePicture() async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture())
+        
+        return data ?? Data()
+    }
+    
+    public func getProfileBanner(for user:String) async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture(name:user))
+        
+        return data ?? Data()
+    }
+    public func getProfileBanner(for user:Int) async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture(id:user))
+        
+        return data ?? Data()
+    }
+    
+    public func getProfileBanner() async -> Data {
+        let data: Data? = await client?.perform(for: .getProfilePicture())
+        
+        return data ?? Data()
     }
 }

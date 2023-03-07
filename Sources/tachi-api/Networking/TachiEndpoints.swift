@@ -16,6 +16,8 @@ enum TachiEndpoints {
     case allTables(game: String, playtype: String)
     case folder(game: String, playtype: String, id: String)
     case table(game: String, playtype: String, id: String)
+    case getProfilePicture(id: Int? = nil, name:String? = nil)
+    case getProfileBanner(id: Int? = nil, name:String? = nil)
 }
 
 extension TachiEndpoints: Endpoint {
@@ -46,21 +48,41 @@ extension TachiEndpoints: Endpoint {
             return "/games/\(game)/\(playtype)/folders/\(id)"
         case let .table(game, playtype, id):
             return "/games/\(game)/\(playtype)/tables/\(id)"
+        case .getProfilePicture(id: let id, name: let name):
+            if let id = id {
+                return "/users/\(id)/pfp"
+            } else if let name = name {
+                return "/users/\(name)/pfp"
+            } else {
+                return "/users/me/pfp"
+            }
+        case .getProfileBanner(id: let id, name: let name):
+            if let id = id {
+                return "/users/\(id)/banner"
+            } else if let name = name {
+                return "/users/\(name)/banner"
+            } else {
+                return "/users/me/banner"
+            }
         }
     }
+    
+    
     
     var method: HTTPMethod {
         switch self {
         case .user,
-            .games,
-            .game,
-            .gamePTConfig,
-            .allTables,
-            .folder,
-            .table:
+                .games,
+                .game,
+                .gamePTConfig,
+                .allTables,
+                .folder,
+                .table,
+                .getProfilePicture,
+                .getProfileBanner:
             return .GET
         }
     }
     
-    
 }
+
