@@ -30,6 +30,19 @@ class HTTPClient<T: Endpoint> {
         return nil
     }
     
+    func performData(for endpoint: T) async -> Data? {
+        
+        var request = URLRequest(url: makeURL(for: endpoint))
+        request.httpMethod = endpoint.method.rawValue
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            return  data
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
     
     func makeURL(for endpoint: Endpoint) -> URL {
         let baseURL = client.hostName
