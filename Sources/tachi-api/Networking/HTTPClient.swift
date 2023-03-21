@@ -15,10 +15,21 @@ class HTTPClient<T: Endpoint> {
     }
     
     
-    func perform<R: Codable>(for endpoint: T) async -> R? {
+    func perform<R: Codable>(for endpoint: T, with body:Encodable? = nil, oauthToken: String? = nil) async -> R? {
         
         var request = URLRequest(url: makeURL(for: endpoint))
         request.httpMethod = endpoint.method.rawValue
+        
+        if let body = body {
+            let jsonData = try? JSONEncoder().encode(body)
+            request.httpBody = jsonData
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        
+        if let oauthToken = oauthToken {
+            request.addValue("Bearer \(oauthToken)", forHTTPHeaderField: "Authorization")
+        }
+        
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             

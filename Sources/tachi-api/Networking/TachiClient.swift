@@ -10,4 +10,9 @@ import Foundation
 
 protocol TachiClient {
     var hostName: String {get}
+    var clientId: String {get}
+    var clientSecret: String {get}
+    var redirectURL: String {get}
+    
+    var oauthCode: String? {get set}
 }

@@ -1,12 +1,23 @@
 import Foundation
 public class KamaitachiClient: TachiClient {
+    
+    var oauthCode: String? = nil
+    
+    var clientId: String
+    
+    var clientSecret: String
+    
+    var redirectURL: String
+    
     var hostName: String = "kamaitachi.xyz"
     lazy var client: HTTPClient<TachiEndpoints>? = {
         HTTPClient(client: self)
     }()
     
-    public init() {
-        
+    public init(clientId: String, clientSecret: String, redirectURL: String) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.redirectURL = redirectURL
     }
     
     public func getUser(with id:Int) async -> User? {
@@ -86,5 +97,12 @@ public class KamaitachiClient: TachiClient {
         let data: Data? = await client?.performData(for: .getProfilePicture())
         
         return data ?? Data()
+    }
+    
+    public func getOAuthToken(from code:String) async -> OAuthTokenResponse? {
+        let request = OAuthTokenRequest(clientID: self.clientId, clientSecret: self.clientSecret, grantType: "authorization_code", redirectURI: self.redirectURL, code: code)
+        let token: StandardResponse<OAuthTokenResponse>? = await client?.perform(for: .OAuthToken, with: request)
+        
+        return token?.body
     }
 }

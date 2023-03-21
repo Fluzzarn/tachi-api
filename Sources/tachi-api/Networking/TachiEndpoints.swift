@@ -18,6 +18,7 @@ enum TachiEndpoints {
     case table(game: String, playtype: String, id: String)
     case getProfilePicture(id: Int? = nil, name:String? = nil)
     case getProfileBanner(id: Int? = nil, name:String? = nil)
+    case OAuthToken
 }
 
 extension TachiEndpoints: Endpoint {
@@ -64,6 +65,9 @@ extension TachiEndpoints: Endpoint {
             } else {
                 return "/users/me/banner"
             }
+            
+        case .OAuthToken:
+            return "/oauth/token"
         }
     }
     
@@ -81,6 +85,8 @@ extension TachiEndpoints: Endpoint {
                 .getProfilePicture,
                 .getProfileBanner:
             return .GET
+        case .OAuthToken:
+            return .POST
         }
     }
     
